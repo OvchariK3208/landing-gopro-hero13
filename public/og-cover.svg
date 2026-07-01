@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g" cx="70%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#125270"/>
+      <stop offset=".5" stop-color="#0a1b24"/>
+      <stop offset="1" stop-color="#050505"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <g fill="none" stroke="#ffffff" opacity=".09"><path d="M0 105h1200M0 210h1200M0 315h1200M0 420h1200M0 525h1200"/><path d="M200 0v630M400 0v630M600 0v630M800 0v630M1000 0v630"/></g>
+  <text x="70" y="90" fill="#77d8ff" font-family="Arial" font-size="20" font-weight="700" letter-spacing="5">GOPRO HERO13 BLACK</text>
+  <text x="70" y="250" fill="#fff" font-family="Arial" font-size="76" font-weight="800">BUILT FOR THE SHOT</text>
+  <text x="70" y="335" fill="#fff" font-family="Arial" font-size="76" font-weight="800">YOUR PHONE CANNOT</text>
+  <text x="70" y="420" fill="#77d8ff" font-family="Arial" font-size="76" font-weight="800">SAFELY TAKE.</text>
+  <circle cx="1010" cy="510" r="54" fill="none" stroke="#77d8ff" stroke-width="18"/>
+  <circle cx="1010" cy="510" r="22" fill="#fff"/>
+</svg>
