@@ -1659,3 +1659,11 @@
     }
   }
 }
+
+html.is-pagecorder-recording {
+  scrollbar-width: none;
+}
+
+html.is-pagecorder-recording::-webkit-scrollbar {
+  display: none;
+}

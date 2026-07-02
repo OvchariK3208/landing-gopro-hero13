@@ -11,7 +11,8 @@
     "test": "node --test",
     "build": "vite build",
     "check": "npm test && npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "record:pagecorder": "node --env-file=.env.local scripts/record-pagecorder.mjs"
   },
   "dependencies": {
     "gsap": "^3.13.0",

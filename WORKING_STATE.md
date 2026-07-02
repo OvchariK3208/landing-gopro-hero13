@@ -2,11 +2,12 @@
 
 ## Current status
 
-- No active implementation task.
-- The 2026-07-02 public commit preparation is complete.
-- The working tree is intentionally unstaged for user review.
-- Recommended next action: review `git diff`, then stage and commit the
-  accepted files.
+- The Pagecorder-only smooth recording mode and local API runner are
+  implemented on `feat/pagecorder-demo-video`.
+- Local browser verification at 420×640 confirmed a ready 3D model, one
+  start/stop pair, a five-second linear route, and no page errors.
+- Next action: push the prepared commit after user approval so the user can
+  create the Vercel branch deployment.
 
 ## Known blockers
 

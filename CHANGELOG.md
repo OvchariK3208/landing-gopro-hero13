@@ -895,3 +895,62 @@ Verified:
 - Temporary Playwright output was removed after browser verification.
 - No secrets or environment files were found.
 - Git index remains empty; no commit or push was performed.
+
+### 2026-07-02 — Pagecorder environment preparation
+
+Original request:
+
+- Create a dedicated branch and an environment-file example listing the
+  values needed for a Pagecorder recording.
+
+Applied changes:
+
+- Created the `feat/pagecorder-demo-video` branch from `main`.
+- Added `.env.example` with the RapidAPI key placeholder, fixed Pagecorder
+  API host, source URL placeholder, and the requested 1280×720/20-second
+  recording settings.
+- Updated `.gitignore` so local `.env` variants remain untracked while
+  `.env.example` remains available as documentation.
+- No real API key, recording job, deployment, or external service mutation
+  was added or performed.
+
+Verified:
+
+- `npm run check` — succeeded; tests and the production build passed.
+- The existing Three.js chunk-size warning remains non-blocking.
+- `git check-ignore -v --no-index .env.local .env.example` — confirmed that
+  `.env.local` is ignored and `.env.example` is explicitly retained.
+- `git diff --check` — succeeded.
+- Browser verification was not run because this change does not affect
+  runtime markup, styles, or JavaScript.
+
+### 2026-07-02 — Pagecorder five-second demo mode
+
+Original request:
+
+- Prepare a first clean Pagecorder demo at 420×640 with smooth scrolling, a
+  five-second duration, and no strict quality or FPS requirement.
+
+Applied changes:
+
+- Added an opt-in `?recording=1` mode that waits for the 3D stage, hides the
+  scrollbar, starts Pagecorder, and scrolls linearly from the Hero through
+  the Rugged section before stopping.
+- Added URL controls for recording duration and route target; normal visits
+  remain unchanged.
+- Added `npm run record:pagecorder`, which reads the ignored `.env.local`,
+  submits a Pagecorder job, polls its status, and reports the result URL and
+  diagnostics without printing the API key.
+- No deployment or Pagecorder job has been submitted yet; the user will
+  create the Vercel branch deployment after approving the prepared push.
+
+Verified:
+
+- `npm run check` — succeeded; tests and the production build passed.
+- Local browser at 420×640 — the 3D stage reached `is-ready`, Pagecorder
+  `start` and `stop` fired once about 5.015 seconds apart, and the linear
+  scroll reached the calculated Rugged endpoint.
+- Browser page contained expected content with no Vite error overlay and no
+  console errors.
+- Chromium emitted only the localhost viewport diagnostic and non-blocking
+  WebGL `ReadPixels` performance warnings.

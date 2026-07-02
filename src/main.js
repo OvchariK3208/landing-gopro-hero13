@@ -22,6 +22,15 @@ async function loadProductExperience() {
     document.querySelector(".webgl-stage")?.classList.add("is-fallback");
     console.warn("The enhanced product experience could not load.", error);
   }
+
+  if (new URLSearchParams(window.location.search).get("recording") === "1") {
+    try {
+      const { initPagecorderRecording } = await import("./js/pagecorder-recording.js");
+      await initPagecorderRecording();
+    } catch (error) {
+      console.error("The Pagecorder recording mode failed.", error);
+    }
+  }
 }
 
 loadProductExperience();

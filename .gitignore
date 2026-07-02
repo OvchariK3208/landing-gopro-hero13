@@ -6,3 +6,8 @@ dist
 .claude/settings.local.json
 /*.png
 /*.jpg
+
+# Local environment values and API credentials
+.env
+.env.*
+!.env.example
