@@ -6,3 +6,15 @@ dist
 .claude/settings.local.json
 /*.png
 /*.jpg
+
+# Local environment values and credentials
+.env
+.env.*
+
+# Local project records excluded from the public portfolio repository
+/.github/workflows/
+/docs/
+/tests/
+/AGENTS.md
+/CHANGELOG.md
+/WORKING_STATE.md

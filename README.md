@@ -1,6 +1,30 @@
-# HERO13 Black Landing Concept
+# HERO13 Black — Cinematic Product Landing
 
-Unofficial portfolio concept for a cinematic HERO13 Black product landing page.
+An unofficial portfolio concept exploring how motion, 3D product presentation,
+and focused interaction design can turn a technical product story into a
+cinematic web experience.
+
+[Live Demo][live-demo] · [Watch Video][demo-video]
+
+[![HERO13 Black landing preview](public/og-cover.svg)][demo-video]
+
+## Highlights
+
+- Scroll-directed 3D product storytelling with GSAP ScrollTrigger and Three.js.
+- A responsive product route that adapts camera position, scale, and rotation.
+- Purpose-built sections for performance, stabilization, ruggedness, battery,
+  mounting, lens mods, and product comparison.
+- An accessible simulated preorder flow that validates data locally and never
+  submits or stores personal information.
+- Responsive layouts and reduced-motion support across desktop, tablet, and
+  mobile viewports.
+
+## Stack
+
+- Vite
+- Vanilla HTML, CSS, and JavaScript
+- GSAP + ScrollTrigger
+- Three.js + GLTFLoader
 
 ## Run locally
 
@@ -9,60 +33,20 @@ npm install
 npm run dev
 ```
 
-The development server listens at:
-
-```text
-http://localhost:5173
-```
-
-`--host` also prints a LAN URL (e.g. `http://192.168.x.x:5173`) so you can
-preview on another device connected to the same network while `npm run dev`
-is running.
-
-Create a production build with:
+Create the production build with:
 
 ```bash
 npm run build
 ```
 
-Run the complete pre-commit verification with:
+## Credits
 
-```bash
-npm run check
-```
-
-This runs the unit tests first and creates a production build only when they
-pass.
-
-When running on `localhost`, the browser console reports the current
-`window.innerWidth` and `window.innerHeight` on load and resize. Run
-`showViewportSize()` in DevTools to print the values manually. This
-diagnostic is disabled on deployed hosts.
-
-GitHub Actions runs the same `npm run check` command for every push and pull
-request.
-
-## Deploy on Vercel
-
-The generated `dist` directory is a static Vite site and deploys on Vercel
-with no extra configuration:
-
-1. Push this repo to GitHub.
-2. In Vercel, import the GitHub repository as a new project.
-3. Vercel auto-detects the "Vite" framework preset with build command
-   `npm run build` and output directory `dist`. No `vercel.json` is needed.
-4. Deploy — every push to the main branch redeploys the live demo.
-
-## Implementation notes
-
-- The 3D camera model is a licensed asset (CC BY 4.0, by Configcars on
-  Sketchfab), loaded at runtime via Three.js's `GLTFLoader`. Attribution is
-  shown in the page footer.
-- GSAP ScrollTrigger drives the product scenes using native browser scrolling.
-- The preorder form never sends or persists entered data. It validates and clears the email in the browser.
-- Demo analytics only write event summaries to the development console.
-- WebGL rendering pauses outside the product-story sections and is capped at 30 FPS on mobile.
-- Reduced-motion preferences disable non-essential motion.
+The camera model is provided by
+[Configcars](https://sketchfab.com/maxipub) under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 This project is not affiliated with or endorsed by GoPro. GoPro and HERO are
 trademarks of GoPro, Inc.
+
+[live-demo]: https://landing-gopro-hero13.vercel.app/
+[demo-video]: https://youtu.be/znBk_CKzRaw

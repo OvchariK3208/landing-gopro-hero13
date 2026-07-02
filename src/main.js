@@ -1,14 +1,7 @@
 import "./styles.css";
-import { initDemoAnalytics, trackDemoEvent } from "./js/demo-analytics.js";
 import { initPreorderForm } from "./js/preorder-form.js";
 
-initDemoAnalytics();
 initPreorderForm();
-
-trackDemoEvent("page_view", {
-  concept: "hero13_black",
-  source: new URLSearchParams(window.location.search).get("utm_source") ?? "direct",
-});
 
 async function loadProductExperience() {
   try {

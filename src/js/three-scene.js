@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { trackDemoEvent } from "./demo-analytics.js";
 import {
   getResponsiveModelScale,
   getRouteProfile,
@@ -318,7 +317,6 @@ export function initThreeScene() {
   canvas.addEventListener("webglcontextlost", (event) => {
     event.preventDefault();
     stage.classList.add("is-fallback");
-    trackDemoEvent("webgl_context_lost");
   });
 
   setStageStatus(stage, "Loading 3D product view");
@@ -338,17 +336,14 @@ export function initThreeScene() {
 
       stage.classList.add("is-ready");
       setStageStatus(stage, "Interactive product view");
-      trackDemoEvent("three_model_loaded", { source: "optimized_webp_glb" });
     })
     .catch((error) => {
       stage.classList.add("is-fallback");
       stage.querySelector("[data-stage-status]")?.remove();
       console.warn("The GLB product model could not load. Showing the CSS fallback.", error);
-      trackDemoEvent("three_model_load_failed");
     });
 
   frameId = window.requestAnimationFrame(render);
-  trackDemoEvent("three_scene_ready", { source: "gopro_hero_13_black_glb" });
 
   return {
     stage,

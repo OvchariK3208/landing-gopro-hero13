@@ -1,5 +1,3 @@
-import { trackDemoEvent } from "./demo-analytics.js";
-
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export function initPreorderForm() {
@@ -39,13 +37,6 @@ export function initPreorderForm() {
       return;
     }
 
-    const formData = new FormData(form);
-    trackDemoEvent("preorder_simulated", {
-      bundle: formData.get("bundle"),
-      activity: formData.get("activity") ?? "not_selected",
-      emailProvided: true,
-    });
-
     email.value = "";
     clearError();
     form.hidden = true;
@@ -59,6 +50,5 @@ export function initPreorderForm() {
     form.reset();
     clearError();
     email.focus();
-    trackDemoEvent("preorder_form_reset");
   });
 }
