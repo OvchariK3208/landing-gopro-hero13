@@ -954,3 +954,74 @@ Verified:
   console errors.
 - Chromium emitted only the localhost viewport diagnostic and non-blocking
   WebGL `ReadPixels` performance warnings.
+
+External demo result:
+
+- Pagecorder job `994` completed against the protected Vercel branch
+  deployment using its temporary share URL.
+- Requested settings: 420×640 viewport, five-second scripted route through
+  Rugged.
+- Reported result: six-second MP4, zero dropped-frame entries, and zero HTTP
+  errors.
+- Downloaded a temporary local review copy to
+  `/tmp/gopro-pagecorder-demo-420x640.mp4`; it remains outside Git.
+- Updated the runner to redact Vercel share-link query values from command
+  output. Neither the RapidAPI key nor the Vercel share token was recorded.
+
+Final recording attempt:
+
+- Submitted Pagecorder job `995` for a 1280×720, 30-second full-page route;
+  Pagecorder's capture target remains 60 FPS.
+- The job failed without producing a video after the one-minute loading
+  timeout.
+- A separate cookie-aware request confirmed that the current Vercel share
+  URL redirects anonymous clients to `vercel.com/login`, so Pagecorder
+  cannot reach the page or its recording start signal.
+- No duplicate retry was submitted. A fresh `Anyone with the link` URL is
+  required first.
+
+Final recording result:
+
+- Verified the regenerated Vercel share URL returned the landing to an
+  anonymous cookie-aware client before retrying.
+- Pagecorder job `996` completed the 1280×720, 30-second full-page route
+  using Pagecorder's 60 FPS capture.
+- Pagecorder reported a 31-second MP4, no HTTP errors or browser error logs,
+  and one `render_slow` dropped frame at `00:19.206`.
+- Downloaded the 9,256,870-byte MP4 to
+  `/tmp/gopro-pagecorder-final-1280x720-30s.mp4`; it remains outside Git.
+- The signed result URL and Vercel share token were not recorded in project
+  files.
+
+### 2026-07-02 — Deterministic full-page recording timeline
+
+Original request:
+
+- Replace the delayed smooth-scroll behavior with a continuous vertical
+  recording route: one second on Hero, 20 seconds from top to bottom, and one
+  second on Footer.
+
+Applied changes:
+
+- Disabled CSS smooth scrolling only while Pagecorder mode is active.
+- Replaced repeated browser-smoothed `scrollTo()` calls with direct
+  `document.scrollingElement.scrollTop` updates on every animation frame.
+- Added independent lead-in, linear-scroll, and end-hold URL/env/CLI
+  parameters, with defaults of `1 + 20 + 1` seconds and a full-page target.
+- Preserved the old `recordingDurationMs` and `--duration` values as
+  compatibility fallbacks for scroll duration.
+- Added a unit test for the exact linear progress timeline.
+- No external Pagecorder job or deployment was performed for this change.
+
+Verified:
+
+- `npm run check` — succeeded; all three test files and the production build
+  passed. The known Three.js chunk-size warning remains.
+- Browser at 1280×720 — 3D reached `is-ready` before recording, computed
+  recording scroll behavior was `auto`, and no page errors occurred.
+- Recorded scroll samples were `0px` at start, `1841px` at 6 seconds,
+  `3592px` at 11 seconds, `5390px` at 16 seconds, and the exact `7195px`
+  endpoint before the one-second Footer hold.
+- The local start/stop interval was about 22.017 seconds. Chromium emitted
+  only the existing localhost viewport diagnostic and non-blocking WebGL
+  `ReadPixels` warnings.

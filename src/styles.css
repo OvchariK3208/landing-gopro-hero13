@@ -1661,6 +1661,7 @@
 }
 
 html.is-pagecorder-recording {
+  scroll-behavior: auto !important;
   scrollbar-width: none;
 }
 

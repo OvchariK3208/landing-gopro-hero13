@@ -1,5 +1,7 @@
-const DEFAULT_DURATION_MS = 5000;
-const DEFAULT_TARGET_ID = "rugged";
+const DEFAULT_LEAD_IN_MS = 1000;
+const DEFAULT_SCROLL_DURATION_MS = 20000;
+const DEFAULT_END_HOLD_MS = 1000;
+const DEFAULT_TARGET_ID = "page-end";
 const MODEL_WAIT_TIMEOUT_MS = 20000;
 
 function getPositiveInteger(value, fallback) {
@@ -33,33 +35,46 @@ function waitForModelStage(stage) {
 }
 
 function getScrollTarget(targetId) {
+  const scroller = document.scrollingElement || document.documentElement;
   const target = document.getElementById(targetId);
   if (!target) {
-    return Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+    return Math.max(scroller.scrollHeight - window.innerHeight, 0);
   }
 
   const bounds = target.getBoundingClientRect();
   return Math.max(bounds.bottom + window.scrollY - window.innerHeight, 0);
 }
 
-function runLinearScroll(durationMs, targetY) {
-  const openingHoldMs = Math.min(400, durationMs * 0.08);
-  const closingHoldMs = Math.min(200, durationMs * 0.04);
-  const scrollDurationMs = Math.max(durationMs - openingHoldMs - closingHoldMs, 1);
+export function getLinearScrollProgress(elapsedMs, leadInMs, scrollDurationMs) {
+  const scrollElapsed = elapsedMs - leadInMs;
+  return Math.min(Math.max(scrollElapsed / scrollDurationMs, 0), 1);
+}
+
+function runRecordingTimeline({
+  leadInMs,
+  scrollDurationMs,
+  endHoldMs,
+  targetY,
+}) {
+  const scroller = document.scrollingElement || document.documentElement;
+  const totalDurationMs = leadInMs + scrollDurationMs + endHoldMs;
   const startedAt = performance.now();
 
   return new Promise((resolve) => {
     const update = (now) => {
-      const elapsed = now - startedAt;
-      const scrollElapsed = elapsed - openingHoldMs;
-      const progress = Math.min(Math.max(scrollElapsed / scrollDurationMs, 0), 1);
+      const elapsed = Math.min(now - startedAt, totalDurationMs);
+      const progress = getLinearScrollProgress(
+        elapsed,
+        leadInMs,
+        scrollDurationMs,
+      );
 
-      window.scrollTo({ top: targetY * progress, behavior: "auto" });
+      scroller.scrollTop = targetY * progress;
 
-      if (elapsed < durationMs) {
+      if (elapsed < totalDurationMs) {
         window.requestAnimationFrame(update);
       } else {
-        window.scrollTo({ top: targetY, behavior: "auto" });
+        scroller.scrollTop = targetY;
         resolve();
       }
     };
@@ -70,15 +85,24 @@ function runLinearScroll(durationMs, targetY) {
 
 export async function initPagecorderRecording() {
   const params = new URLSearchParams(window.location.search);
-  const durationMs = getPositiveInteger(
-    params.get("recordingDurationMs"),
-    DEFAULT_DURATION_MS,
+  const leadInMs = getPositiveInteger(
+    params.get("recordingLeadInMs"),
+    DEFAULT_LEAD_IN_MS,
+  );
+  const scrollDurationMs = getPositiveInteger(
+    params.get("recordingScrollDurationMs") || params.get("recordingDurationMs"),
+    DEFAULT_SCROLL_DURATION_MS,
+  );
+  const endHoldMs = getPositiveInteger(
+    params.get("recordingEndHoldMs"),
+    DEFAULT_END_HOLD_MS,
   );
   const targetId = params.get("recordingTarget") || DEFAULT_TARGET_ID;
   const stage = document.querySelector(".webgl-stage");
+  const scroller = document.scrollingElement || document.documentElement;
 
   document.documentElement.classList.add("is-pagecorder-recording");
-  window.scrollTo({ top: 0, behavior: "auto" });
+  scroller.scrollTop = 0;
 
   await Promise.all([document.fonts?.ready, waitForModelStage(stage)]);
   await waitForAnimationFrame();
@@ -88,7 +112,12 @@ export async function initPagecorderRecording() {
   window.pagecorder?.("start");
 
   try {
-    await runLinearScroll(durationMs, targetY);
+    await runRecordingTimeline({
+      leadInMs,
+      scrollDurationMs,
+      endHoldMs,
+      targetY,
+    });
   } finally {
     window.pagecorder?.("stop");
   }

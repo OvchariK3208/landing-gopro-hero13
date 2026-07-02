@@ -1,8 +1,10 @@
 const DEFAULT_API_HOST = "pagecorder.p.rapidapi.com";
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
-const DEFAULT_DURATION_SECONDS = 20;
-const DEFAULT_TARGET_ID = "rugged";
+const DEFAULT_LEAD_IN_SECONDS = 1;
+const DEFAULT_SCROLL_DURATION_SECONDS = 20;
+const DEFAULT_END_HOLD_SECONDS = 1;
+const DEFAULT_TARGET_ID = "page-end";
 const POLL_INTERVAL_MS = 5000;
 const JOB_TIMEOUT_MS = 10 * 60 * 1000;
 
@@ -69,14 +71,32 @@ const height = getPositiveInteger(
   args.height || process.env.PAGECORDER_HEIGHT,
   DEFAULT_HEIGHT,
 );
-const durationSeconds = getPositiveInteger(
-  args.duration || process.env.PAGECORDER_DURATION_SECONDS,
-  DEFAULT_DURATION_SECONDS,
+const leadInSeconds = getPositiveInteger(
+  args["lead-in"] || process.env.PAGECORDER_LEAD_IN_SECONDS,
+  DEFAULT_LEAD_IN_SECONDS,
+);
+const scrollDurationSeconds = getPositiveInteger(
+  args["scroll-duration"] ||
+    args.duration ||
+    process.env.PAGECORDER_SCROLL_DURATION_SECONDS ||
+    process.env.PAGECORDER_DURATION_SECONDS,
+  DEFAULT_SCROLL_DURATION_SECONDS,
+);
+const endHoldSeconds = getPositiveInteger(
+  args["end-hold"] || process.env.PAGECORDER_END_HOLD_SECONDS,
+  DEFAULT_END_HOLD_SECONDS,
 );
 const targetId = args.target || DEFAULT_TARGET_ID;
+const totalDurationSeconds =
+  leadInSeconds + scrollDurationSeconds + endHoldSeconds;
 
 sourceUrl.searchParams.set("recording", "1");
-sourceUrl.searchParams.set("recordingDurationMs", String(durationSeconds * 1000));
+sourceUrl.searchParams.set("recordingLeadInMs", String(leadInSeconds * 1000));
+sourceUrl.searchParams.set(
+  "recordingScrollDurationMs",
+  String(scrollDurationSeconds * 1000),
+);
+sourceUrl.searchParams.set("recordingEndHoldMs", String(endHoldSeconds * 1000));
 sourceUrl.searchParams.set("recordingTarget", targetId);
 
 const headers = {
@@ -86,8 +106,11 @@ const headers = {
 };
 const endpoint = `https://${apiHost}/rapid/render`;
 
-console.log(`Submitting ${width}x${height}, ${durationSeconds}s Pagecorder job.`);
-console.log(`Source: ${sourceUrl}`);
+console.log(
+  `Submitting ${width}x${height}, ${totalDurationSeconds}s Pagecorder timeline ` +
+    `(${leadInSeconds}s + ${scrollDurationSeconds}s + ${endHoldSeconds}s).`,
+);
+console.log(`Source: ${sourceUrl.origin}${sourceUrl.pathname} (query values redacted)`);
 
 const submittedJob = await readJson(
   await fetch(endpoint, {
