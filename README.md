@@ -25,6 +25,23 @@ Create a production build with:
 npm run build
 ```
 
+Run the complete pre-commit verification with:
+
+```bash
+npm run check
+```
+
+This runs the unit tests first and creates a production build only when they
+pass.
+
+When running on `localhost`, the browser console reports the current
+`window.innerWidth` and `window.innerHeight` on load and resize. Run
+`showViewportSize()` in DevTools to print the values manually. This
+diagnostic is disabled on deployed hosts.
+
+GitHub Actions runs the same `npm run check` command for every push and pull
+request.
+
 ## Deploy on Vercel
 
 The generated `dist` directory is a static Vite site and deploys on Vercel

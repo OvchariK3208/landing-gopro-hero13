@@ -44,19 +44,51 @@ const PROFILE_SETTINGS = {
     scales: [1, 1.16, 1.04, 1.12],
   },
   tablet: {
-    xAmplitude: 0.9,
+    xAmplitude: 0,
     yOffset: 0,
     scales: [1, 1.1, 1, 1.06],
   },
   mobile: {
     xAmplitude: 0.7,
-    yOffset: -0.45,
+    yOffset: -0.25,
     scales: [1, 1.06, 0.98, 1.03],
     rotations: [
       { x: -0.08, y: -0.42, z: -0.06 },
       { x: 0.04, y: -0.12, z: 0.02 },
       { x: -0.1, y: 0.4, z: -0.08 },
       { x: 0.13, y: -0.55, z: 0.05 },
+    ],
+  },
+  // Sections stack in a single column below the compact breakpoint, so both
+  // sub-profiles keep the model horizontally dead-centre (no x amplitude)
+  // and free of node-to-node drift (no y amplitude), only rotating gently.
+  // The fixed WebGL stage band uses the same vh-based top/height at every
+  // width in this range, so its absolute vertical centre falls in a
+  // different place relative to each section's (pixel-sized) body copy on
+  // a short phone screen than on a taller tablet-portrait one — hence two
+  // tuned offsets instead of one.
+  compactPhone: {
+    xAmplitude: 0,
+    yAmplitude: -1,
+    yOffset: -0.38,
+    scales: [1.6, 1.7, 2, 1.8],
+    rotations: [
+      { x: -0.08, y: -0.42, z: -0.06 },
+      { x: -0.02, y: -0.27, z: -0.02 },
+      { x: -0.09, y: -0.01, z: -0.07 },
+      { x: 0.025, y: -0.485, z: -0.005 },
+    ],
+  },
+  compactTablet: {
+    xAmplitude: 0,
+    yAmplitude: 0,
+    yOffset: 0,
+    scales: [1.6, 1.8, 1.7, 1.7],
+    rotations: [
+      { x: -0.08, y: -0.42, z: -0.06 },
+      { x: -0.02, y: -0.27, z: -0.02 },
+      { x: -0.09, y: -0.01, z: -0.07 },
+      { x: 0.025, y: -0.485, z: -0.005 },
     ],
   },
 };
@@ -86,7 +118,7 @@ export function getProductRoute(profileName = "desktop") {
   return BASE_ROUTE.map((node, index) => ({
     ...cloneRouteNode(node),
     anchorX: node.anchorX * profile.xAmplitude,
-    anchorY: node.anchorY + profile.yOffset,
+    anchorY: node.anchorY * (profile.yAmplitude ?? 1) + profile.yOffset,
     rotation: {
       ...(profile.rotations?.[index] ?? node.rotation),
     },

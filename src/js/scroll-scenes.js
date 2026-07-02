@@ -5,7 +5,7 @@ import {
   getProductRoute,
   interpolateProductRoute,
 } from "./three-route.js";
-import { getViewportProfile } from "./three-responsive.js";
+import { getRouteProfile } from "./three-responsive.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,7 +76,7 @@ export function initScrollScenes(threeContext) {
   let scrollAnchors = [];
 
   const refreshProductRoute = () => {
-    route = getProductRoute(getViewportProfile(window.innerWidth));
+    route = getProductRoute(getRouteProfile(window.innerWidth));
     const sectionMeasurements = route.slice(1).map((node) => {
       const section = document.querySelector(node.selector);
       const bounds = section.getBoundingClientRect();

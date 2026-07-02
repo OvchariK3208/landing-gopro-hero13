@@ -39,6 +39,35 @@ test("preserves the side-to-side route with reduced mobile amplitude", () => {
   assert.deepEqual(route.map((node) => node.scale), [1, 1.06, 0.98, 1.03]);
 });
 
+test("keeps the compact-tablet route dead-centre with only subtle rotation", () => {
+  const mobileRoute = getProductRoute("mobile");
+  const route = getProductRoute("compactTablet");
+
+  route.forEach((node) => {
+    assert.equal(Math.abs(node.anchorX), 0);
+    assert.equal(Math.abs(node.anchorY), 0);
+  });
+  assert.deepEqual(route.map((node) => node.scale), [1.6, 1.8, 1.7, 1.7]);
+
+  const mobileYRange = mobileRoute.map((node) => node.rotation.y);
+  const minMobileY = Math.min(...mobileYRange);
+  const maxMobileY = Math.max(...mobileYRange);
+  route.forEach((node) => {
+    assert.ok(node.rotation.y >= minMobileY && node.rotation.y <= maxMobileY);
+  });
+});
+
+test("keeps the compact-phone route centred with its tuned vertical path", () => {
+  const route = getProductRoute("compactPhone");
+
+  route.forEach((node) => {
+    assert.equal(Math.abs(node.anchorX), 0);
+    assert.ok(node.anchorY < 0);
+  });
+  assert.deepEqual(route.map((node) => node.anchorY), [-0.44, -0.38, -0.42, -0.36]);
+  assert.deepEqual(route.map((node) => node.scale), [1.6, 1.7, 2, 1.8]);
+});
+
 test("creates scroll anchors from actual section geometry", () => {
   const route = getProductRoute("desktop");
   const anchors = createRouteScrollAnchors(

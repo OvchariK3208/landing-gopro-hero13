@@ -782,15 +782,8 @@
     color: var(--blue);
   }
 
-  .lenses-heading {
-    display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    align-items: end;
-    gap: 8vw;
-  }
-
   .lenses-heading h2 {
-    margin-top: 18px;
+    margin: 18px 0 27px;
     font-size: clamp(3.4rem, 5.8vw, 6.8rem);
   }
 
@@ -798,9 +791,8 @@
     color: var(--blue);
   }
 
-  .lenses-heading > p {
+  .lenses-heading > p:not(.eyebrow) {
     max-width: 400px;
-    padding-bottom: 12px;
     color: #92999c;
     line-height: 1.65;
   }
@@ -1321,6 +1313,76 @@
       gap: 40px;
     }
 
+    .section-shell {
+      padding-bottom: clamp(40px, 9vw, 15vh);
+    }
+
+  }
+
+  /* Sections stack into a single column below this width, so the WebGL
+     stage and the compact 3D route profile (see three-responsive.js's
+     COMPACT_WIDTH_THRESHOLD) share the exact same 1023px boundary — text
+     never has to share the row with a now dead-centre model. */
+  @media (max-width: 1023px) {
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 110px var(--page-gutter) 32px;
+    }
+
+    .hero-copy,
+    .hero-lede {
+      width: 100%;
+    }
+
+    .hero h1,
+    .stability .feature-copy h2 {
+      font-size: clamp(2rem, 9.2vw, 3.6rem);
+    }
+
+    .hero-lede {
+      font-size: 0.94rem;
+    }
+
+    .webgl-stage {
+      height: 58vh;
+      top: 29vh;
+    }
+
+    .section-shell {
+      display: block;
+      padding-top: 12vh;
+    }
+
+    .feature-copy,
+    .left-copy,
+    .right-copy {
+      width: 100%;
+      margin: 0;
+    }
+
+    .feature-copy > p:not(.eyebrow) {
+      max-width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .fact-list,
+    .condition-tags {
+      margin-top: 14px;
+    }
+
+    .fact-list li {
+      padding: 9px 0;
+    }
+
+    .performance,
+    .stability,
+    .rugged,
+    .battery,
+    .mounting {
+      align-items: flex-start;
+    }
   }
 
   @media (max-width: 760px) {
@@ -1336,42 +1398,13 @@
       padding: 15px var(--page-gutter);
     }
 
-    .hero {
-      display: flex;
-      min-height: 100svh;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 110px var(--page-gutter) 32px;
-    }
-
-    .hero-copy {
-      width: 100%;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.7rem, 11.2vw, 4.2rem);
-    }
-
     .hero-lede {
       width: 88%;
-      font-size: 0.94rem;
-    }
-
-    .hero-specs {
-      right: 20px;
-      bottom: 28px;
-      left: 20px;
-      justify-content: space-between;
     }
 
     .scroll-cue,
     .stage-status {
       display: none;
-    }
-
-    .webgl-stage {
-      height: 58vh;
-      top: 29vh;
     }
 
     .stage-glow {
@@ -1381,9 +1414,10 @@
     }
 
     .section-shell {
-      display: block;
       min-height: 100svh;
-      padding: 12vh var(--page-gutter) 48vh;
+      padding-inline: var(--page-gutter);
+      /* padding-bottom falls through to the clamp() set in the 1000px
+         tier above so both breakpoints share one continuous formula. */
     }
 
     .section-index {
@@ -1391,20 +1425,8 @@
       left: var(--page-gutter);
     }
 
-    .feature-copy,
-    .left-copy,
-    .right-copy {
-      width: 100%;
-      margin: 0;
-    }
-
     .feature-copy h2 {
       font-size: clamp(2.7rem, 11.2vw, 4.2rem);
-    }
-
-    .hero h1,
-    .stability .feature-copy h2 {
-      font-size: clamp(2rem, 9.2vw, 3.6rem);
     }
 
     .battery .feature-copy h2,
@@ -1412,17 +1434,11 @@
       font-size: clamp(2.7rem, 11.2vw, 4.2rem);
     }
 
-    .feature-copy > p:not(.eyebrow) {
-      max-width: 100%;
-      font-size: 0.9rem;
-    }
-
     .performance,
     .stability,
     .rugged,
     .battery,
     .mounting {
-      align-items: flex-start;
       background-position: center;
     }
 
@@ -1438,34 +1454,9 @@
         #08090a;
     }
 
-    .battery-gauge {
-      top: auto;
-      bottom: 12vh;
-      left: 50%;
-      width: min(66vw, 330px);
-      transform: translateX(-50%) rotate(-4deg);
-    }
-
-    .mount-rings {
-      top: auto;
-      right: auto;
-      bottom: 7vh;
-      left: 50%;
-      width: min(66vw, 330px);
-      transform: translateX(-50%);
-    }
-
-    .fact-list {
-      margin-top: 25px;
-    }
-
     .vertical-note,
     .depth-markers {
       display: none;
-    }
-
-    .condition-tags {
-      margin-top: 25px;
     }
 
     .lenses {
@@ -1473,16 +1464,12 @@
       padding: 11vh var(--page-gutter);
     }
 
-    .lenses-heading {
-      display: block;
-    }
-
     .lenses-heading h2 {
       font-size: clamp(2.7rem, 11.2vw, 4.2rem);
     }
 
-    .lenses-heading > p {
-      margin-top: 30px;
+    .lenses-heading > p:not(.eyebrow) {
+      max-width: 100%;
       font-size: 0.9rem;
     }
 
@@ -1513,42 +1500,6 @@
 
     .comparison-intro h2 {
       font-size: clamp(2.8rem, 12.8vw, 4.6rem);
-    }
-
-    .compare-table {
-      margin-top: 8vh;
-      border: 0;
-    }
-
-    .compare-row {
-      grid-template-columns: 1fr 1fr;
-      margin-bottom: 18px;
-      border: 1px solid var(--line);
-    }
-
-    .compare-row > div {
-      min-height: 96px;
-      padding: 16px;
-    }
-
-    .compare-row > div:first-child {
-      grid-column: 1 / -1;
-      min-height: 40px;
-      padding: 9px 14px;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .compare-head {
-      display: none;
-    }
-
-    .compare-row strong {
-      font-size: 1rem;
-    }
-
-    .compare-row div > span {
-      font-size: 0.64rem;
     }
 
     .comparison-note {
@@ -1588,6 +1539,108 @@
 
     .site-footer > a:last-child {
       text-align: left;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-specs {
+      right: 0;
+      bottom: 28px;
+      left: 0;
+      width: max-content;
+      max-width: calc(100% - (2 * var(--page-gutter)));
+      justify-content: center;
+      gap: clamp(16px, 4vw, 24px);
+      margin-inline: auto;
+    }
+
+    .battery,
+    .mounting {
+      display: flex;
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .battery .feature-copy,
+    .mounting .feature-copy {
+      z-index: 2;
+      display: flow-root;
+      order: 1;
+    }
+
+    .battery .fact-list,
+    .mounting .fact-list {
+      margin-bottom: 0;
+    }
+
+    .battery-gauge,
+    .mount-rings {
+      position: relative;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      flex: 0 0 auto;
+      order: 2;
+      width: min(66vw, 330px);
+      margin: clamp(64px, 10vw, 80px) auto 0;
+    }
+
+    .battery-gauge {
+      transform: rotate(-4deg);
+    }
+
+    .mount-rings {
+      transform: none;
+    }
+
+    .compare-table {
+      margin-top: 8vh;
+      border-top: 1px solid var(--line);
+    }
+
+    .compare-row {
+      grid-template-columns: minmax(64px, 0.85fr) 1fr 1fr;
+      margin-bottom: 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .compare-row > div {
+      min-height: 74px;
+      padding: 10px 8px;
+    }
+
+    .compare-row:not(.compare-head) > div:first-child {
+      padding: 10px 8px;
+      border-right: 1px solid var(--line);
+      border-bottom: 0;
+      font-size: 0.62rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+
+    .compare-head > div {
+      min-height: 52px;
+      font-size: 0.52rem;
+    }
+
+    .compare-head > div:first-child {
+      font-size: 0.52rem;
+    }
+
+    .compare-head span {
+      font-size: 0.42rem;
+    }
+
+    .compare-row strong {
+      font-size: 0.8rem;
+    }
+
+    .compare-row div > span {
+      font-size: 0.58rem;
     }
   }
 

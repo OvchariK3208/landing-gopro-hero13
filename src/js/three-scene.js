@@ -3,7 +3,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { trackDemoEvent } from "./demo-analytics.js";
 import {
   getResponsiveModelScale,
-  getViewportProfile,
+  getRouteProfile,
 } from "./three-responsive.js";
 import {
   getProductRoute,
@@ -144,7 +144,7 @@ export function initThreeScene() {
   interactionPivot.name = "Pointer interaction pivot";
   responsiveRoot.add(interactionPivot);
 
-  const initialRoute = getProductRoute(getViewportProfile(window.innerWidth))[0];
+  const initialRoute = getProductRoute(getRouteProfile(window.innerWidth))[0];
   const routeCurrent = cloneRoute(initialRoute);
   const routeTarget = cloneRoute(initialRoute);
 
