@@ -4,7 +4,7 @@ An unofficial portfolio concept exploring how motion, 3D product presentation,
 and focused interaction design can turn a technical product story into a
 cinematic web experience.
 
-![Live Demo](https://landing-gopro-hero13.vercel.app/)
+[Live Demo](https://landing-gopro-hero13.vercel.app/)
 
 ## YouTube Overview
 
