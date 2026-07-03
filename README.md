@@ -4,9 +4,11 @@ An unofficial portfolio concept exploring how motion, 3D product presentation,
 and focused interaction design can turn a technical product story into a
 cinematic web experience.
 
-[Live Demo][live-demo] · [Watch Video][demo-video]
+[Live Demo][https://landing-gopro-hero13.vercel.app/]
 
-[![HERO13 Black landing preview](public/og-cover.svg)][demo-video]
+## YouTube Overview
+
+[![HERO13 Black — Cinematic Product Landing](http://img.youtube.com/vi/tj3L6JvLwkc/0.jpg)](http://www.youtube.com/watch?v=tj3L6JvLwkc "HERO13 Black — Cinematic Product Landing")
 
 ## Highlights
 
@@ -21,23 +23,10 @@ cinematic web experience.
 
 ## Stack
 
-- Vite
 - Vanilla HTML, CSS, and JavaScript
 - GSAP + ScrollTrigger
 - Three.js + GLTFLoader
-
-## Run locally
-
-```bash
-npm install
-npm run dev
-```
-
-Create the production build with:
-
-```bash
-npm run build
-```
+- Vite
 
 ## Credits
 
@@ -47,6 +36,3 @@ The camera model is provided by
 
 This project is not affiliated with or endorsed by GoPro. GoPro and HERO are
 trademarks of GoPro, Inc.
-
-[live-demo]: https://landing-gopro-hero13.vercel.app/
-[demo-video]: https://youtu.be/znBk_CKzRaw
